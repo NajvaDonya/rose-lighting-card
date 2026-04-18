@@ -8,8 +8,8 @@
     body {
       margin: 0;
       font-family: sans-serif;
-      background: linear-gradient(135deg, #0f3d2e, #1b5e20);
-      color: var(--color-neutrals-on-primary);
+      background: #ffffff;
+      color:#ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -18,7 +18,7 @@
 
     .card {
       width: 380px;
-      background: #177361;
+      background: #103a32;
       border: 1px solid rgba(212,175,55,0.5);
       border-radius: 22px;
       padding: 22px;
@@ -66,12 +66,13 @@
       margin: 8px auto;
       padding: 10px;
       width: 85%;
-      background: #d4af37;
-      color: #000;
+      background: #103a32;
+      color: #fff;
       border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
       transition: 0.2s;
+      border: 3px solid #d1b93c;
     }
 
     .btn:hover {
@@ -92,6 +93,56 @@
       font-size: 12px;
       color: #ccc;
     }
+    body{
+    margin: 0;
+    padding: 0;
+    background: lightblue;
+}
+div{
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    background: #3AC371;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.white{
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: #fff;
+    box-shadow: 2px 2px 3px 2px rgba(0,0,0,.3);
+}
+.white::before{
+    content: "";
+    top: 65px;
+    left: -15px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+    position: absolute;
+    transform: rotate(-50deg) rotateX(-55deg);
+}
+.white::after{
+    content: "";
+    top: 63px;
+    left: -4px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: transparent #3AC371 transparent transparent;
+    position: absolute;
+    transform: rotate(-51deg) rotateX(-50deg);
+}
+.fas{
+    left: 17px;
+    top: 18px;
+    position: absolute;
+    font-size: 35px;
+    color: #fff;
+    transform: rotate(90deg);
+}
   </style>
 </head>
 <body>
@@ -109,9 +160,12 @@
   <div class="info">📱 موبایل: 09125625491</div>
   <div class="info">📍 لاله‌زار شمالی، بازار لوستر تهران، طبقه اول پلاک 52</div>
 
-  <a class="btn" href="https://wa.me/989125625491">چت در واتساپ</a>
-  <a class="btn" href="https://www.instagram.com/rose.lighting.g?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">صفحه اینستاگرام</a>
-  <a class="btn secondary" href="https://maps.app.goo.gl/Z3QixJMEVtqVdYCF8" target="_blank">موقعیت روی نقشه</a>
+  <img href="https://wa.me/989125625491" src="https://th.bing.com/th/id/ODF.EYbt7H4cU1mljj9wrCZBAg?w=32&amp;h=32&amp;qlt=99&amp;pcl=fffffa&amp;o=6&amp;pid=1.2" height="32" width="32" alt="Global web icon" class="rms_img">
+  <img href="https://www.instagram.com/rose.lighting.g?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" src="https://th.bing.com/th/id/ODF.vj_OJJ20ikL-Sn119NFmXw?w=32&amp;h=32&amp;qlt=98&amp;pcl=fffffa&amp;o=6&amp;pid=1.2" height="32" width="32" alt="Global web icon" class="rms_img" data-bm="74">
+  <img href="https://maps.app.goo.gl/Z3QixJMEVtqVdYCF8" src="https://th.bing.com/th/id/ODF.OOt6apqXkJpZmQiZ38LMFA?w=32&amp;h=32&amp;qlt=90&amp;pcl=fffffc&amp;o=6&amp;pid=1.2" height="32" width="32" alt="Global web icon" class="rms_img">
+  <!--<a class="btn" href="https://wa.me/989125625491">چت در واتساپ</a>-->
+   <!--<a class="btn" href="https://www.instagram.com/rose.lighting.g?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">صفحه اینستاگرام</a>--> 
+  <!--<a class="btn secondary" href="https://maps.app.goo.gl/Z3QixJMEVtqVdYCF8" target="_blank">موقعیت روی نقشه</a>-->
 
   <div class="qr">
     QR Code اینجا قرار می‌گیرد (لینک اینستاگرام / کارت دیجیتال)
