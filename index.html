@@ -1,177 +1,224 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rose Lighting | کارت دیجیتال</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+    :root{
+      --bg-dark:#071f1a;
+      --card-base:#103a32;
+      --accent:#c9a24ad1;
+      --card-w:380px;
     }
 
-    .card {
-  width: 100%;
-  max-width: 380px;
-  background: #103a32;
-  border: 3px solid #c9a24ad1;
-  border-radius: 22px;
-  padding: 30px 22px; 
-  text-align: center;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-  backdrop-filter: blur(12px);
-  box-sizing: border-box;
-  min-height: 560px;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Inter',system-ui,Roboto,Arial;
+      display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(180deg, #071f1a 0%, #0b2a24 60%);
+      padding:24px;color:#fff;overflow:hidden;
+    }
+
+    /* لایهٔ نور خطی کلی که از گوشهٔ پایین به بالا می‌آید */
+    .linear-light {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(800px 420px at 8% 95%, rgba(201,162,74,0.06) 0%, rgba(201,162,74,0.00) 28%),
+        linear-gradient(180deg, rgba(16,58,50,0.92), rgba(10,38,33,0.92));
+      mix-blend-mode: screen;
+      filter: brightness(0.9);
+      /* پوشش نور خطی متحرک */
+    }
+
+    /* نور خطی متحرک (sweep) */
+    .linear-sweep {
+      position:fixed; inset:0; z-index:1; pointer-events:none;
+      background: linear-gradient(120deg,
+        rgba(255,255,255,0.00) 0%,
+        rgba(255,255,255,0.06) 30%,
+        rgba(255,255,255,0.12) 50%,
+        rgba(255,255,255,0.06) 70%,
+        rgba(255,255,255,0.00) 100%);
+      transform: translateY(40%) rotate(-18deg) scale(1.2);
+      opacity:0;
+      mix-blend-mode: screen;
+      filter: blur(18px) saturate(1.05);
+      animation: sweepIn 2.6s ease forwards, gentlePulse 6s ease-in-out infinite 2.6s;
+    }
+
+    @keyframes sweepIn {
+      0%   { opacity:0; transform: translateY(60%) rotate(-18deg) scale(1.25); }
+      40%  { opacity:0.65; transform: translateY(18%) rotate(-18deg) scale(1.12); }
+      100% { opacity:0.42; transform: translateY(0%) rotate(-18deg) scale(1.0); }
+    }
+
+    @keyframes gentlePulse {
+      0% { opacity:0.38; filter: blur(20px) brightness(0.96); }
+      50% { opacity:0.55; filter: blur(14px) brightness(1.06); }
+      100% { opacity:0.38; filter: blur(20px) brightness(0.96); }
+    }
+
+    /* صحنه و کارت */
+    .stage{ position:relative; z-index:3; width:100%; max-width:var(--card-w); display:flex; align-items:center; justify-content:center; min-height:560px; }
+
+    .card{
+      width:100%;
+      background: linear-gradient(180deg, rgba(16,58,50,0.98), rgba(16,58,50,0.92));
+      border:3px solid var(--accent);
+      border-radius:22px;
+      padding:28px 22px;
+      text-align:center;
+      box-shadow: 0 20px 50px rgba(2,10,8,0.55);
+      backdrop-filter: blur(8px);
+      box-sizing:border-box;
+      overflow:visible;
+      transform: translateY(12px) scale(0.995);
+      opacity:0;
+      transition: transform .6s cubic-bezier(.2,.9,.3,1), opacity .6s ease;
+    }
+    .card.revealed{ opacity:1; transform: translateY(0) scale(1); }
+
+    /* لوگوی مرکزی بزرگ که ابتدا نمایش داده می‌شود */
+    .logo-wrap{
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:4; pointer-events:none;
     }
 
     .logo {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 12px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #fff;
-      border: 2px solid #c9a24ad1;
+      width:220px; height:220px; border-radius:50%; overflow:hidden; background:#fff; border:3px solid var(--accent);
+      display:flex; align-items:center; justify-content:center; box-shadow:0 30px 80px rgba(0,0,0,0.6);
+      transform: scale(0.7);
+      opacity:0;
+      transition: transform .9s cubic-bezier(.2,.9,.3,1), opacity .5s ease, width .5s ease, height .5s ease;
+      will-change: transform, opacity;
     }
-
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    /* حالت نهایی لوگوی مرکزی (کوچک شده و داخل کارت) */
+    .logo.small {
+      width:120px; height:120px; transform: scale(1); opacity:1; pointer-events:auto;
+      box-shadow:0 12px 30px rgba(0,0,0,0.45);
     }
+    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-    h1 {
-      font-size: 22px;
-      font-weight: bold;
-      color: #c9a24ad1;
-      margin: 10px 0;
+    /* محتوای کارت که بعد از لوگو ظاهر می‌شود */
+    h1{ font-size:22px; color:var(--accent); font-weight:700; margin:10px 0 6px; letter-spacing:.2px; }
+    .sub{ font-size:15px; color:rgba(255,255,255,0.95); font-weight:600; margin-bottom:14px; line-height:1.6; }
+    .info{ font-size:14px; color:rgba(255,255,255,0.92); margin:8px 0; line-height:1.6; }
+
+    .card-content{ opacity:0; transform: translateY(8px); transition: opacity .45s ease .12s, transform .45s ease .12s; }
+    .card-content.visible{ opacity:1; transform: translateY(0); }
+
+    .socials{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-top:56px; opacity:0; transform: translateY(8px); transition: opacity .5s ease .15s, transform .5s ease .15s; }
+    .socials.visible{ opacity:1; transform: translateY(0); }
+
+    .img{ width:72px; height:72px; background:#fff; border-radius:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: transform .22s ease, box-shadow .22s ease; box-shadow:0 10px 26px rgba(0,0,0,0.22); }
+    .img:hover{ transform: translateY(-6px) scale(1.03); box-shadow:0 20px 40px rgba(0,0,0,0.32); }
+    .img img{ width:40px; height:40px; display:block; }
+
+    /* واکنش‌گرایی موبایل */
+    @media (max-width:480px){
+      .logo { width:160px; height:160px; }
+      .logo.small { width:96px; height:96px; }
+      .img{ width:56px; height:56px; border-radius:12px }
+      .img img{ width:28px; height:28px }
+      h1{ font-size:18px }
+      .card{ padding:16px; border-radius:16px; min-height:480px; }
     }
-
-    .sub {
-      font-size: 15px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-
-    .info {
-      font-size: 14px;
-      margin: 10px 0;
-      line-height: 1.6;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    margin-top: 68px;
-    }
-
-    .img {
-      width: 70px;
-      height: 70px;
-      background: #fff;
-      border-radius: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: 0.3s;
-      margin: -20px 4px;
-    }
-
-    .img:hover {
-      transform: scale(1.05);
-    }
-
-    .img img {
-      width: 40px;
-      height: 40px;
-    }
-
-    /* 📱 Mobile */
-    @media (max-width: 480px) {
-      .card {
-        padding: 16px;
-        border-radius: 18px;
-      }
-
-      h1 {
-        font-size: 18px;
-      }
-
-      .sub {
-        font-size: 13px;
-      }
-
-      .info {
-        font-size: 12px;
-      }
-
-      .logo {
-        width: 100px;
-        height: 100px;
-      }
-
-      .img {
-        width: 50px;
-        height: 50px;
-      }
-
-      .img img {
-        width: 24px;
-        height: 24px;
-      }
-    }
-
-    /* 💻 Large screens */
-    @media (min-width: 1200px) {
-      .card {
-        max-width: 420px;
-      }
-    }
-
   </style>
 </head>
-
 <body>
 
-<div class="card">
+  <!-- لایه‌های پس‌زمینه و نور -->
+  <div class="linear-light" aria-hidden="true"></div>
+  <div class="linear-sweep" aria-hidden="true"></div>
 
-  <div class="logo">
-    <img src="logo.png" alt="Rose Lighting Logo" />
+  <!-- لوگوی بزرگ مرکزی (نمایش اولیه) -->
+  <div class="logo-wrap" id="logoWrap" aria-hidden="true">
+    <div class="logo" id="logo">
+      <img src="logo.png" alt="Rose Lighting Logo" />
+    </div>
   </div>
 
-  <h1>Rose Lighting</h1>
-  <div class="sub">فروش تک و عمده لوسترهای مدرن کلاسیک و نئوکلاسیک</div>
+  <!-- کارت -->
+  <main class="stage" role="main">
+    <section class="card" id="card" aria-labelledby="brandTitle">
+      <div style="height:8px"></div>
 
-  <div class="info">📞 تلفن: 02136058256</div>
-  <div class="info">📱 موبایل: 09125625491</div>
-  <div class="info">📍 لاله‌زار شمالی، بازار لوستر تهران، طبقه اول پلاک 52</div>
+      <div class="card-content" id="cardContent">
+        <div style="display:flex;justify-content:center;margin-bottom:8px">
+          <div class="logo" style="width:120px;height:120px;border-radius:50%;overflow:hidden;background:#fff;border:3px solid var(--accent);box-shadow:0 8px 22px rgba(0,0,0,0.45);">
+            <img src="logo.png" alt="Rose Lighting Logo small" />
+          </div>
+        </div>
 
-  <div class="socials">
-    <a class="img" href="https://wa.me/989125625491" target="_blank">
-      <img src="https://th.bing.com/th/id/ODF.EYbt7H4cU1mljj9wrCZBAg?w=32&h=32" />
-    </a>
+        <h1 id="brandTitle">Rose Lighting</h1>
+        <div class="sub">فروش تک و عمده لوسترهای مدرن کلاسیک و نئوکلاسیک</div>
 
-    <a class="img" href="https://www.instagram.com/rose.lighting.g" target="_blank">
-      <img src="https://th.bing.com/th/id/ODF.vj_OJJ20ikL-Sn119NFmXw?w=32&h=32" />
-    </a>
+        <div class="info">📞 تلفن: 02136058256</div>
+        <div class="info">📱 موبایل: 09125625491</div>
+        <div class="info">📍 لاله‌زار شمالی، بازار لوستر تهران، طبقه اول پلاک 52</div>
 
-    <a class="img" href="https://maps.app.goo.gl/Z3QixJMEVtqVdYCF8" target="_blank">
-      <img src="https://th.bing.com/th/id/ODF.OOt6apqXkJpZmQiZ38LMFA?w=32&h=32" />
-    </a>
-  </div>
+        <div class="socials" id="socials">
+          <a class="img" href="https://wa.me/989125625491" target="_blank" aria-label="WhatsApp">
+            <img src="https://th.bing.com/th/id/ODF.EYbt7H4cU1mljj9wrCZBAg?w=32&h=32" alt="wa" />
+          </a>
 
-</div>
+          <a class="img" href="https://www.instagram.com/rose.lighting.g" target="_blank" aria-label="Instagram">
+            <img src="https://th.bing.com/th/id/ODF.vj_OJJ20ikL-Sn119NFmXw?w=32&h=32" alt="ig" />
+          </a>
 
+          <a class="img" href="https://maps.app.goo.gl/Z3QixJMEVtqVdYCF8" target="_blank" aria-label="Map">
+            <img src="https://th.bing.com/th/id/ODF.OOt6apqXkJpZmQiZ38LMFA?w=32&h=32" alt="map" />
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ترتیب انیمیشن:
+    // 1) sweep نور خطی با CSS شروع می‌شود
+    // 2) بعد از 600ms لوگوی بزرگ ظاهر و بزرگ می‌شود
+    // 3) بعد از 1400ms لوگو کوچک شده و داخل کارت قرار می‌گیرد؛ سپس کارت و محتوای آن فِید می‌شوند
+    window.addEventListener('load', function(){
+      const logo = document.getElementById('logo');
+      const card = document.getElementById('card');
+      const cardContent = document.getElementById('cardContent');
+      const socials = document.getElementById('socials');
+      const sweep = document.querySelector('.linear-sweep');
+
+      // مرحله 1: فعال‌سازی sweep (CSS انیمیشن دارد؛ این فقط هماهنگ‌سازی JS است)
+      // تاخیر برای هماهنگی با ورود صفحه
+      setTimeout(() => {
+        // نمایش لوگوی بزرگ (مرکزی)
+        logo.style.opacity = '1';
+        logo.style.transform = 'scale(1.02)';
+      }, 600);
+
+      // لوگو برای لحظه‌ای بزرگ بماند
+      setTimeout(() => {
+        logo.style.transform = 'scale(1.0)';
+      }, 1000);
+
+      // کوچک شدن لوگو و نمایش کارت
+      setTimeout(() => {
+        logo.classList.add('small');          // لوگو به اندازهٔ داخل کارت می‌آید
+        card.classList.add('revealed');      // کارت ظاهر می‌شود
+        cardContent.classList.add('visible');// محتوای کارت فِید می‌شود
+        setTimeout(()=> socials.classList.add('visible'), 120);
+      }, 1400);
+
+      // اگر کاربر کلیک کند، فوراً حالت نهایی را نشان بده
+      logo.addEventListener('click', () => {
+        logo.classList.add('small');
+        card.classList.add('revealed');
+        cardContent.classList.add('visible');
+        socials.classList.add('visible');
+      });
+    });
+  </script>
 </body>
 </html>
