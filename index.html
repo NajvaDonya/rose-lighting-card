@@ -19,7 +19,7 @@
     body{
       font-family:'Inter',system-ui,Roboto,Arial;
       display:flex;align-items:center;justify-content:center;
-      background: linear-gradient(180deg, #071f1a 0%, #0b2a24 60%);
+      background: linear-gradient(180deg, rgb(64 145 129 / 98%), rgb(4 28 24 / 98%));
       padding:24px;color:#fff;overflow:hidden;
     }
 
@@ -43,13 +43,17 @@
       position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:5; pointer-events:none;
     }
     .intro-logo{
-      width:220px; height:220px; border-radius:50%; overflow:hidden;
-      background: transparent; display:flex; align-items:center; justify-content:center;
-      transform: scale(0.9);
-      opacity:0;
-      transition: transform .8s cubic-bezier(.2,.9,.3,1), opacity .6s ease;
-      will-change: transform, opacity;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  width: 50%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform .8s cubic-bezier(.2, .9, .3, 1), opacity .6s ease;
+    will-change: transform, opacity;
     }
     .intro-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
 
