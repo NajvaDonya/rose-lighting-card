@@ -60,19 +60,15 @@
     /* کارت (ابتدا مخفی) */
     .stage{ position:relative; z-index:3; width:100%; max-width:var(--card-w); display:flex; align-items:center; justify-content:center; min-height:560px; }
     .card{
-      width:100%;
-      background: linear-gradient(180deg, rgba(16,58,50,0.98), rgba(16,58,50,0.92));
-      border:3px solid var(--accent);
-      border-radius:22px;
-      padding:28px 22px;
-      text-align:center;
-      box-shadow: 0 20px 50px rgba(2,10,8,0.55);
-      backdrop-filter: blur(8px);
-      box-sizing:border-box;
-      overflow:visible;
-      transform: translateY(12px) scale(0.995);
-      opacity:0;
-      transition: transform .6s cubic-bezier(.2,.9,.3,1), opacity .6s ease;
+    width: 100%;
+    border-radius: 22px;
+    padding: 28px 22px;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: visible;
+    transform: translateY(12px) scale(0.995);
+    opacity: 0;
+    transition: transform .6s cubic-bezier(.2, .9, .3, 1), opacity .6s ease;
     }
     .card.revealed{ opacity:1; transform: translateY(0) scale(1); }
 
